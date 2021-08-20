@@ -48,17 +48,18 @@
   }
 
   function displayOverlay(orders) {
-    const over = document.createElement("div");
-    over.classList.add(classname.overlay);
-    over.addEventListener("mousedown", e=>e.preventDefault());
+    const overBG = document.createElement("div");
+    overBG.classList.add(classname.overlay);
+    overBG.addEventListener("mousedown", e=>e.preventDefault());
     const closer = document.createElement("div");
     closer.addEventListener("mousedown", e=>{e.preventDefault(); overlayTimeout(100)});
     closer.innerHTML = `<p class='${classname.button}' style='font-size:2em; color:red;'><b>&times;</b></p>`;
-    over.appendChild(closer);
-    document.body.appendChild(over);
+    overBG.appendChild(closer);
+    document.body.appendChild(overBG);
     for (const orderNum of orders) {
       const row = document.createElement("row");
-      over.appendChild(row);
+      row.style = "margin-left: 30vw; padding: 5px 20px";
+      overBG.appendChild(row);
       const overtxt = document.createElement("cel");
       row.appendChild(overtxt);
       overtxt.style="color: violet";
@@ -70,7 +71,7 @@
       code.classList.add(classname.barcode);
     }
     /*overlayTimeout(15000);*/
-    state.overlayNode = over;
+    state.overlayNode = overBG;
   }
 
   function hideOtherCodes(ev) {
@@ -121,8 +122,8 @@
       `.${classname.barcode} {font-family: 'Libre Barcode 128 Text', cursive; color: black; background-color: white; padding: 0.1em; font-size: 4em} \n 
       row{border:1px solid black} \n 
       .${classname.invisible} {display: none;} \n
-      .${classname.button} {height: 60px; width: 60px; font-size: 1em; font-weight: bold; border-radius: 33%; background-color: #4a6bd4b3; color: white; text-align: center; cursor: pointer; position: fixed; top: 250px; right: 60px;}
-      .${classname.overlay} {color: white; position: fixed; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; height: 100%; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0,0,0,0.5); z-index: 2; cursor: pointer;}
+      .${classname.button} {height: 60px; width: 60px; font-size: 1em; font-weight: bold; border-radius: 33%; background-color: #4a6bd4b3; color: white; text-align: center; cursor: pointer; position: fixed; top: 45vh; right: 5vw;}
+      .${classname.overlay} {color: white; position: fixed; display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start; overflow: scroll; width: 100%; height: 100%; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0,0,0,0.5); z-index: 2; cursor: pointer;}
       `;
       barcodeStyle.id = "barcodeStyle-"+md5;
       document.body.appendChild(barcodeStyle);
