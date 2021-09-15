@@ -123,7 +123,7 @@
       row{border:1px solid black} \n 
       .${classname.invisible} {display: none;} \n
       .${classname.button} {height: 60px; width: 60px; font-size: 1em; font-weight: bold; border-radius: 33%; background-color: #4a6bd4b3; color: white; text-align: center; cursor: pointer; position: fixed; top: 45vh; right: 5vw;}
-      .${classname.overlay} {color: white; position: fixed; display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start; overflow: scroll; width: 100%; height: 90vh; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0,0,0,0.5); z-index: 2; cursor: pointer; padding-top: 10vh;}
+      .${classname.overlay} {color: white; position: fixed; display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start; overflow: scroll; width: 100%; height: 90vh; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0,0,0,0.5); z-index: 10000; cursor: pointer; padding-top: 10vh;}
       `;
       barcodeStyle.id = "barcodeStyle-"+md5;
       document.body.appendChild(barcodeStyle);
