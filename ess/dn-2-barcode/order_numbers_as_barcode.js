@@ -1,21 +1,21 @@
-(function(){
+(function () {
   /*create global state if necessary, 343429107d7cd7a41d679b0a0da46fcf is MD5 of "order_numbers_as_barcode.js"*/
   const md5 = "343429107d7cd7a41d679b0a0da46fcf";
-  const namespace = "bookmarklet_"+md5;
-  const classname = 
+  const namespace = "bookmarklet_" + md5;
+  const classname =
   {
-    barcode: "barcode-"+md5,
-    invisible: "invisible-"+md5,
-    button:"bc-button-"+md5,
-    overlay: "bc-overlay-"+md5
+    barcode: "barcode-" + md5,
+    invisible: "invisible-" + md5,
+    button: "bc-button-" + md5,
+    overlay: "bc-overlay-" + md5
   };
-  if (window[namespace] === undefined) { window[namespace] = {};}
+  if (window[namespace] === undefined) { window[namespace] = {}; }
   const state = window[namespace];
 
   mainCode();
   addButtonToPage();
 
-  function mainCode(){
+  function mainCode() {
     const orders = getOrdersFromSelection();
     addBcStyle();
     if (orders.length > 0) {
@@ -50,9 +50,9 @@
   function displayOverlay(orders) {
     const overBG = document.createElement("div");
     overBG.classList.add(classname.overlay);
-    overBG.addEventListener("mousedown", e=>e.preventDefault());
+    overBG.addEventListener("mousedown", e => e.preventDefault());
     const closer = document.createElement("div");
-    closer.addEventListener("mousedown", e=>{e.preventDefault(); overlayTimeout(100)});
+    closer.addEventListener("mousedown", e => { e.preventDefault(); overlayTimeout(100) });
     closer.innerHTML = `<p class='${classname.button}' style='font-size:2em; color:red;'><b>&times;</b></p>`;
     overBG.appendChild(closer);
     document.body.appendChild(overBG);
@@ -62,7 +62,7 @@
       overBG.appendChild(row);
       const overtxt = document.createElement("cel");
       row.appendChild(overtxt);
-      overtxt.style="color: violet";
+      overtxt.style = "color: violet";
       overtxt.innerText = orderNum + " ";
       overtxt.addEventListener("mousedown", hideOtherCodes);
       const code = document.createElement("cel");
@@ -100,32 +100,32 @@
     if (state.overlayTimer) {
       clearTimeout(state.overlayTimer);
     }
-    state.overlayTimer = setTimeout(()=>{state.overlayNode.remove();}, delay);
+    state.overlayTimer = setTimeout(() => { state.overlayNode.remove(); }, delay);
   }
 
   function addBcStyle() {
     if (!state.barcodeStyleAdded) {
       const barcodeFont = document.createElement("style");
       barcodeFont.innerHTML = "@import url('https://fonts.googleapis.com/css2?family=Libre+Barcode+128+Text&display=swap');";
-      barcodeFont.id = "barcodeFont-"+md5;
+      barcodeFont.id = "barcodeFont-" + md5;
       document.body.appendChild(barcodeFont);
       state.barcodeFont = barcodeFont;
       updateBarcodeStyle();
       state.barcodeStyleAdded = true;
     } /*else {updateBarcodeStyle();}*/
-    
-    function updateBarcodeStyle(){
+
+    function updateBarcodeStyle() {
       const oldNode = state.barcodeStyle;
-      if (oldNode) {oldNode.remove();}
+      if (oldNode) { oldNode.remove(); }
       const barcodeStyle = document.createElement("style");
-      barcodeStyle.innerHTML = 
-      `.${classname.barcode} {font-family: 'Libre Barcode 128 Text', cursive; color: black; background-color: white; padding: 0.1em; font-size: 4em} \n 
+      barcodeStyle.innerHTML =
+        `.${classname.barcode} {font-family: 'Libre Barcode 128 Text', cursive; color: black; background-color: white; padding: 0.1em; font-size: 4em} \n 
       row{border:1px solid black} \n 
       .${classname.invisible} {display: none;} \n
       .${classname.button} {height: 60px; width: 60px; font-size: 1em; font-weight: bold; border-radius: 33%; background-color: #4a6bd4b3; color: white; text-align: center; cursor: pointer; position: fixed; top: 45vh; right: 5vw;}
       .${classname.overlay} {color: white; position: fixed; display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start; overflow: scroll; width: 100%; height: 90vh; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0,0,0,0.5); z-index: 10000; cursor: pointer; padding-top: 10vh;}
       `;
-      barcodeStyle.id = "barcodeStyle-"+md5;
+      barcodeStyle.id = "barcodeStyle-" + md5;
       document.body.appendChild(barcodeStyle);
       state.barcodeStyle = barcodeStyle;
     }
@@ -135,17 +135,17 @@
     /*
     * Generate and return code128 string.
     */
-    const codeBStart = String.fromCharCode(104+100); /* 104 = Type B start → Ì*/
-    const codeEnd = String.fromCharCode(106+100); /* → Î*/
+    const codeBStart = String.fromCharCode(104 + 100); /* 104 = Type B start → Ì*/
+    const codeEnd = String.fromCharCode(106 + 100); /* → Î*/
     let total = 104;
     /*weighted sum, position*charVal */
-    for(let i=0, len=str.length;i<len;i++){
-      total += ((i+1) * (str.charCodeAt(i)-32)); 
+    for (let i = 0, len = str.length; i < len; i++) {
+      total += ((i + 1) * (str.charCodeAt(i) - 32));
     }
-    
+
     let modVal = total % 103;
-    if ((modVal+32)>126) {modVal +=68}; /*deal with 95→105*/
-    const checkChar   = String.fromCharCode(modVal+32);
+    if ((modVal + 32) > 126) { modVal += 68 }; /*deal with 95→105*/
+    const checkChar = String.fromCharCode(modVal + 32);
     return codeBStart + str + checkChar + codeEnd;
   }
 
@@ -155,7 +155,7 @@
       btn.innerText = "D/N Barcode";
       btn.classList.add(classname.button);
       /*activate when clicked with left mouse button, keep selection from unselecting*/
-      btn.addEventListener("mousedown", e=>{if (e.button===0){e.preventDefault(); mainCode();}});
+      btn.addEventListener("mousedown", e => { if (e.button === 0) { e.preventDefault(); mainCode(); } });
       document.body.appendChild(btn);
       state.buttonAdded = true;
     }
