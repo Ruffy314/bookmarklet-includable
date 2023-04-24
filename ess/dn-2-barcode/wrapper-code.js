@@ -2,6 +2,8 @@ const md5 = "343429107d7cd7a41d679b0a0da46fcf";
 const namespace = "bookmarklet_"+md5;
 if (window[namespace] !== undefined) { 
   console.log(namespace+" already loaded");
+  // execute mainCode instead
+  window[namespace].api.mainCode();
   return;
 }
 

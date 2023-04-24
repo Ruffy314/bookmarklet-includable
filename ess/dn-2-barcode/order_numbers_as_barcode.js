@@ -9,7 +9,7 @@
     button:"bc-button-"+md5,
     overlay: "bc-overlay-"+md5
   };
-  if (window[namespace] === undefined) { window[namespace] = {};}
+  if (window[namespace] === undefined) { window[namespace] = {api:{mainCode}};}
   const state = window[namespace];
 
   mainCode();
